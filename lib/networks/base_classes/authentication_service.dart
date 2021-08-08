@@ -16,7 +16,7 @@ class AuthenticationService {
     final url = Endpoints.login.login;
     final payload = {"mobile": username, "password": password};
 
-    final resp = client.post(url, body: payload);
+    final resp = client.postLogin(url, body: payload);
 
     await resp.then((res) {
       response.status = res.statusCode;

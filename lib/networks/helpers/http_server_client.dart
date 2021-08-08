@@ -6,15 +6,11 @@ import 'package:sea_oil/networks/parsers/http_server_response.dart';
 
 class HttpServerClient {
   late Dio _client;
-  late Dio _tokenClient;
+  late Dio _clientLogin;
 
   HttpServerClient() {
+    _clientLogin = new Dio();
     _client = new Dio(new BaseOptions(
-      receiveDataWhenStatusError: true,
-      connectTimeout: 60 * 1000, // 60 seconds
-      receiveTimeout: 60 * 1000, // 60 seconds
-    ));
-    _tokenClient = new Dio(new BaseOptions(
       receiveDataWhenStatusError: true,
       connectTimeout: 60 * 1000, // 60 seconds
       receiveTimeout: 60 * 1000, // 60 seconds
@@ -66,5 +62,9 @@ class HttpServerClient {
 
   Future<Response> delete(String url, {dynamic body}) async {
     return _client.delete(url);
+  }
+
+  Future<Response> postLogin(String url, {dynamic body}) async {
+    return _clientLogin.post(url, data: body);
   }
 }
