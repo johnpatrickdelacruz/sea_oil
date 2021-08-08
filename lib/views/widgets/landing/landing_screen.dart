@@ -38,6 +38,14 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
+
+    getCurrentLocation();
+  }
+
+  void getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    currentPosition = position;
   }
 
   static final CameraPosition initialLoc = CameraPosition(
@@ -46,11 +54,8 @@ class _LandingScreenState extends State<LandingScreen> {
   );
 
   void setupPositionLocator() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-    currentPosition = position;
-
-    setCameraPosition(lat: position.latitude, long: position.longitude);
+    setCameraPosition(
+        lat: currentPosition.latitude, long: currentPosition.longitude);
   }
 
   setCameraPosition({lat, long}) {
@@ -80,12 +85,13 @@ class _LandingScreenState extends State<LandingScreen> {
         if (state is LandingProgress) {
           GenericDialog.showLoadingDialog(context);
         } else if (state is LandingSuccess) {
+          station = [];
           state.station.forEach((element) async {
             print(element.name);
 
             double distance = Geolocator.distanceBetween(
                 currentPosition.latitude,
-                currentPosition.altitude,
+                currentPosition.longitude,
                 double.parse(element.lat),
                 double.parse(element.lng));
 
@@ -345,19 +351,4 @@ class _LandingScreenState extends State<LandingScreen> {
           .toList();
     });
   }
-
-  // void onSearchTextChanged(String text) async {
-  //   _searchResult.clear();
-  //   if (text.isEmpty) {
-  //     setState(() {});
-  //     return;
-  //   }
-
-  //   _userDetails.forEach((userDetail) {
-  //     if (userDetail.firstName.contains(text) ||
-  //         userDetail.lastName.contains(text)) _searchResult.add(userDetail);
-  //   });
-
-  //   setState(() {});
-  // }
 }
