@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:sea_oil/networks/helpers/storage_helper.dart';
-import 'package:sea_oil/networks/parsers/http_server_response.dart';
 
 class HttpServerClient {
   late Dio _client;

@@ -5,7 +5,7 @@ class _Login {
 }
 
 class _Account {
-  final account_sites = _auth + "/stations?all";
+  final accountSites = _auth + "/stations?all";
 }
 
 final login = _Login();

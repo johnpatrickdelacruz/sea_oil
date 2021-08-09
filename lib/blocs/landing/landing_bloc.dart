@@ -20,15 +20,21 @@ class LandingBloc extends Bloc<LandingEvent, LandingState> {
   final AccountRepositoryProviding _accountRepository =
       serviceLocator<AccountRepository>();
 
+  List<Station> stationList = [];
+
   @override
   Stream<LandingState> mapEventToState(LandingEvent event) async* {
     if (event is LandingLoadSites) {
-      yield* _mapLandingLoadSitesToState(
-          context: event.context, station: event.station);
+      if (stationList.length == 0) {
+        yield* _mapLandingLoadSitesToState(
+            context: event.context, station: event.station);
+      } else {
+        yield LandingSuccess(station: stationList, isLoaded: true);
+      }
+    } else if (event is BackToListStation) {
+      yield LandingSuccess(station: stationList, isLoaded: true);
     } else if (event is SelectStation) {
       yield SelectStationSuccess(station: event.station);
-    } else if (event is SearchStation) {
-      yield SearchStationPage(station: event.stations);
     }
   }
 
@@ -43,16 +49,11 @@ class LandingBloc extends Bloc<LandingEvent, LandingState> {
     }
 
     try {
-      print("bbb");
-      // Future.delayed(const Duration(seconds: 3), () async {
       response = await _accountRepository.loadSites();
 
       Navigator.pop(context);
-      // });
 
-      print("aaa");
-      print(response.status);
-      print("cccc");
+      stationList = response.data.stations;
 
       switch (response.status) {
         case 200:

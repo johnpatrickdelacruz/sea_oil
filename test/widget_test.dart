@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:sea_oil/main.dart';
 import 'package:sea_oil/views/app.dart';
 
 void main() {

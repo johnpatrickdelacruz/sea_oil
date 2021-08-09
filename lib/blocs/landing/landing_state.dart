@@ -28,17 +28,17 @@ class LandingFailure extends LandingState {
 }
 
 class LandingSuccess extends LandingState {
-  const LandingSuccess({
-    required this.station,
-  });
+  const LandingSuccess({required this.station, this.isLoaded});
 
   final List<Station> station;
+  final bool? isLoaded;
 
   @override
-  List<Object> get props => [station];
+  List<Object> get props => [station, isLoaded!];
 
   @override
-  String toString() => 'LandingSuccess {station: $station}';
+  String toString() =>
+      'LandingSuccess {station: $station} {isLoaded: $isLoaded}';
 }
 
 class SelectStationSuccess extends LandingState {

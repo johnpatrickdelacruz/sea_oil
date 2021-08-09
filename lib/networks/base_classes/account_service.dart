@@ -12,7 +12,7 @@ class AccountService {
   Future<HttpServerResponse> getAllSites() async {
     final HttpServerResponse response = HttpServerResponse();
 
-    final url = Endpoints.account.account_sites;
+    final url = Endpoints.account.accountSites;
 
     final resp = client.get(url);
 

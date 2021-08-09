@@ -1,15 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sea_oil/blocs/landing/landing_bloc.dart';
-import 'package:sea_oil/blocs/landing/landing_event.dart';
 
 import 'package:sea_oil/blocs/landing/landing_state.dart';
 import 'package:sea_oil/blocs/navigation/navigation_bloc.dart';
 import 'package:sea_oil/blocs/navigation/navigation_event.dart';
 
 import 'package:sea_oil/networks/model/stations.dart';
+import 'package:sea_oil/views/widgets/app_bar.dart';
 
 import 'package:sea_oil/views/widgets/app_text.dart';
 
@@ -42,28 +40,23 @@ class _SearchScreenState extends State<SearchScreen> {
       child: BlocBuilder<LandingBloc, LandingState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              title: AppText(text: 'Search Location', color: Colors.purple),
-              centerTitle: true,
-              iconTheme: IconThemeData(color: Colors.purple),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<NavigationBloc>(context).add(
-                        NavigationToLanding(),
-                      );
-                    },
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.purple,
-                      size: 30.0,
-                    ),
+            appBar: AppbarWithTitle(
+              title: 'Search Location',
+              actions: Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<NavigationBloc>(context).add(
+                      NavigationToLanding(),
+                    );
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.purple,
+                    size: 30.0,
                   ),
-                )
-              ],
+                ),
+              ),
             ),
             body: SingleChildScrollView(
               child: Container(
@@ -93,13 +86,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemCount: newStationList.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            trailing: Radio(
-                              value: "N",
-                              groupValue: newStationList[index],
-                              onChanged: (val) {
-                                setState(() {});
-                              },
-                            ),
                             onTap: () {
                               BlocProvider.of<NavigationBloc>(context).add(
                                 NavigationToLanding(
@@ -131,15 +117,17 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void onSearchTextChanged(String value) {
-    setState(() {
-      newStationList = newStationList
-          .where((element) =>
-              element.address.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+  void onSearchTextChanged(String text) async {
+    newStationList = [];
 
-      if (value.length == 0) {
-        newStationList = widget.stationList;
+    widget.stationList.forEach((element) {
+      if (element.address.toLowerCase().contains(text.toLowerCase()))
+        newStationList.add(element);
+    });
+
+    setState(() {
+      if (text.length == 0) {
+        newStationList.addAll(widget.stationList);
       }
     });
   }

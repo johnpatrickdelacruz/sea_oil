@@ -34,8 +34,8 @@ class SelectStation extends LandingEvent {
   String toString() => 'SelectStation {station}';
 }
 
-class SearchStation extends LandingEvent {
-  const SearchStation({required this.stations});
+class BackToListStation extends LandingEvent {
+  const BackToListStation({required this.stations});
 
   final List<Station> stations;
 
@@ -43,5 +43,5 @@ class SearchStation extends LandingEvent {
   List<Object> get props => [stations];
 
   @override
-  String toString() => 'SearchStation {station}';
+  String toString() => 'BackToListStation {station}';
 }
