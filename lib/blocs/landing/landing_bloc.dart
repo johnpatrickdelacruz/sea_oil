@@ -70,7 +70,6 @@ class LandingBloc extends Bloc<LandingEvent, LandingState> {
           break;
       }
     } catch (_) {
-      print("fail");
       Navigator.pop(context);
       yield LandingFailure(error: Errors.Generic);
     }

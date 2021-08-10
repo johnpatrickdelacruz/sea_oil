@@ -48,7 +48,7 @@ class _LandingScreenState extends State<LandingScreen> {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     currentPosition = position;
-    print("get current position");
+
     setCameraPosition(lat: position.latitude, long: currentPosition.longitude);
   }
 
