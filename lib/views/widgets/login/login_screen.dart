@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.purple,
                       ),
                       labelText: 'Password',
+                      obscureText: true,
                     ),
                     const SizedBox(height: 50),
                     Container(
