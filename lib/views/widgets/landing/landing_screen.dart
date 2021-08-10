@@ -32,9 +32,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
   var geoLocator = Geolocator();
   late Position currentPosition;
-  late List<Station> station = [];
-
-  bool isStationFromList = false;
+  List<Station> station = [];
+  List<Station> newDataListStation = [];
 
   int selectedRadio = -1;
 
@@ -98,21 +97,12 @@ class _LandingScreenState extends State<LandingScreen> {
             }).catchError((error) => throw Exception(error));
           });
         } else if (state is SelectStationSuccess) {
-          setState(() {
-            isStationFromList = true;
-          });
-
-          print(isStationFromList);
-          print("SelectStationSuccess");
-
           LatLng location = new LatLng(
               double.parse(state.station.lat), double.parse(state.station.lng));
 
-          print("set selected position");
           Future.delayed(Duration(seconds: 1), () {
             setCameraPosition(lat: location.latitude, long: location.longitude);
           }).catchError((error) => throw Exception(error));
-          // setCameraPosition(lat: location.latitude, long: location.longitude);
         }
       },
       child: SafeArea(
@@ -152,14 +142,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       mapController = controller;
                     }
 
-                    // if (searchStation == null) {
-                    // print(isStationFromList);
-                    // print("isStationFromList");
-                    // if (!isStationFromList) {
                     setupPositionLocator();
-                    // }
-
-                    // }
                   }),
               Positioned(
                 left: 0,

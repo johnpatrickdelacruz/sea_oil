@@ -19,7 +19,7 @@ class NavigationBloc extends Bloc<NavigationEvent, dynamic> {
       _navigationService.navigateTo(Routes.login, false);
     }
     if (event is NavigationToLanding) {
-      _navigationService.navigateTo(Routes.landing, false,
+      _navigationService.navigateTo(Routes.landing, true,
           arguments: event.station);
     }
     if (event is NavigationToSearch) {

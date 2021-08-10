@@ -59,8 +59,8 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             body: SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.8,
+              physics: ScrollPhysics(),
+              child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -80,32 +80,33 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ],
                     ),
-                    Container(
-                      height: size.height * 0.65,
-                      child: ListView.builder(
-                        itemCount: newStationList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            onTap: () {
-                              BlocProvider.of<NavigationBloc>(context).add(
-                                NavigationToLanding(
-                                    station: newStationList[index]),
-                              );
-                            },
-                            title: AppText(
-                              text: newStationList[index].address,
-                              color: Colors.black54,
-                            ),
-                            subtitle: Container(
-                              padding: EdgeInsets.only(top: 10),
-                              child: AppText(
-                                  text: (newStationList[index].distance! / 1000)
-                                          .toStringAsFixed(0) +
-                                      ' km away from you'),
-                            ),
-                          );
-                        },
-                      ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: newStationList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            BlocProvider.of<NavigationBloc>(context).add(
+                              NavigationToLanding(
+                                  station: newStationList[index]),
+                            );
+                          },
+                          title: Container(
+                            padding: EdgeInsets.only(top: 15),
+                            child: AppText(
+                                text: newStationList[index].address,
+                                color: Colors.black),
+                          ),
+                          subtitle: Container(
+                            padding: EdgeInsets.only(top: 5),
+                            child: AppText(
+                                text: (newStationList[index].distance! / 1000)
+                                        .toStringAsFixed(0) +
+                                    ' km away from you'),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
